@@ -1,0 +1,1141 @@
+<!doctype html>
+<html lang="ar" dir="rtl">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>عقلك وبطاقتك وجسمك</title>
+    <style>
+      @import url("https://fonts.googleapis.com/css2?family=Changa:wght@500;600;700;800&family=Almarai:wght@400;700;800&display=swap");
+
+      :root {
+        --bg: #080d1b;
+        --card: #151f38;
+        --card2: #202d4c;
+        --text: #fff;
+        --muted: #aab7d1;
+        --gold: #f6c96b;
+        --purple: #9875ff;
+        --green: #22d69a;
+        --red: #ff657d;
+      }
+      * {
+        box-sizing: border-box;
+      }
+      body {
+        margin: 0;
+        background: radial-gradient(ellipse at top, #222b56, #080d1b 65%);
+        color: var(--text);
+        font-family: Almarai, sans-serif;
+        min-height: 100vh;
+      }
+      body.light {
+        --bg: #edf1fa;
+        --card: #fff;
+        --card2: #e8edf8;
+        --text: #17213a;
+        --muted: #68758e;
+        background: var(--bg);
+      }
+      button,
+      input {
+        font: inherit;
+      }
+      button {
+        cursor: pointer;
+      }
+      header {
+        display: flex;
+        justify-content: space-between;
+        padding: 20px;
+        gap: 10px;
+      }
+      .btn {
+        border: 1px solid #ffffff25;
+        background: var(--card);
+        color: var(--text);
+        padding: 12px 17px;
+        border-radius: 13px;
+        font-weight: bold;
+      }
+      .hero {
+        text-align: center;
+        padding: 25px 10px 35px;
+      }
+      h1 {
+        font: 800 clamp(42px, 8vw, 75px) Changa;
+        color: var(--gold);
+        margin: 0;
+        text-shadow: 0 0 35px #f6c96b55;
+      }
+      .hero p {
+        color: var(--muted);
+      }
+      main {
+        max-width: 1450px;
+        margin: auto;
+        padding: 15px 22px;
+      }
+      .toolbar {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      h2,
+      h3 {
+        font-family: Changa;
+      }
+      .primary {
+        background: linear-gradient(120deg, #865bff, #397ff5);
+        color: white;
+        border: 0;
+        border-radius: 13px;
+        padding: 13px 19px;
+        font-weight: bold;
+      }
+      .gold {
+        background: linear-gradient(120deg, #f8dc91, #d99b38);
+        color: #30200a;
+        border: 0;
+        border-radius: 13px;
+        padding: 12px 17px;
+        font-weight: bold;
+      }
+      .teams {
+        display: flex;
+        gap: 17px;
+        overflow-x: auto;
+        padding: 20px 2px 30px;
+      }
+      .team {
+        flex: 0 0 285px;
+        background: linear-gradient(145deg, var(--card2), var(--card));
+        border: 1px solid #ffffff20;
+        border-radius: 23px;
+        padding: 18px;
+        box-shadow: 0 18px 40px #0004;
+      }
+      .team-name {
+        font: 700 23px Changa;
+      }
+      .score {
+        font: 800 58px Changa;
+        color: var(--gold);
+        text-align: center;
+        margin: 12px;
+      }
+      .score-label {
+        text-align: center;
+        color: var(--muted);
+        font-size: 12px;
+      }
+      .score-editor {
+        display: flex;
+        gap: 7px;
+        margin-top: 13px;
+      }
+      .score-editor input {
+        width: 100%;
+        min-width: 0;
+        background: var(--bg);
+        border: 1px solid #ffffff25;
+        color: var(--text);
+        padding: 10px;
+        border-radius: 10px;
+        text-align: center;
+      }
+      .plus,
+      .minus {
+        border: 0;
+        border-radius: 10px;
+        padding: 10px 15px;
+        font-size: 20px;
+        font-weight: bold;
+      }
+      .plus {
+        background: #145d48;
+        color: #7affc8;
+      }
+      .minus {
+        background: #632b3c;
+        color: #ff9bac;
+      }
+      .team-actions {
+        display: flex;
+        gap: 7px;
+        margin-top: 13px;
+      }
+      .team-actions button {
+        flex: 1;
+        border: 0;
+        border-radius: 10px;
+        padding: 11px;
+        font-weight: bold;
+      }
+      .ask {
+        background: #315ebc;
+        color: white;
+      }
+      .edit {
+        background: #ffffff18;
+        color: var(--text);
+      }
+      .delete {
+        background: #7b293d;
+        color: white;
+      }
+      .small {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 15px;
+      }
+      .target {
+        display: flex;
+        gap: 10px;
+        align-items: center;
+        flex-wrap: wrap;
+        margin: 20px 0;
+      }
+      .target input {
+        width: 120px;
+        padding: 11px;
+        border: 1px solid #ffffff30;
+        background: var(--card);
+        color: var(--text);
+        border-radius: 10px;
+      }
+      .overlay {
+        display: none;
+        position: fixed;
+        inset: 0;
+        background: #020615dc;
+        backdrop-filter: blur(12px);
+        z-index: 10;
+        align-items: center;
+        justify-content: center;
+        padding: 15px;
+      }
+      .overlay.show {
+        display: flex;
+      }
+      .modal {
+        background: var(--card);
+        border: 1px solid #ffffff25;
+        border-radius: 23px;
+        padding: 23px;
+        width: min(650px, 100%);
+        max-height: 92vh;
+        overflow: auto;
+        box-shadow: 0 25px 80px #0008;
+      }
+      .modal-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 10px;
+      }
+      .close {
+        background: #ffffff17;
+        color: var(--text);
+        border: 0;
+        border-radius: 10px;
+        padding: 8px 13px;
+        font-size: 20px;
+      }
+      .field {
+        margin: 15px 0;
+        display: grid;
+        gap: 8px;
+      }
+      .field input {
+        padding: 13px;
+        background: var(--bg);
+        color: var(--text);
+        border: 1px solid #ffffff30;
+        border-radius: 11px;
+      }
+      .categories {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 12px;
+        margin-top: 20px;
+      }
+      .category {
+        border: 1px solid #ffffff25;
+        background: var(--card2);
+        color: var(--text);
+        padding: 25px 8px;
+        border-radius: 17px;
+        font-weight: bold;
+        font-size: 17px;
+      }
+      .category span {
+        display: block;
+        font-size: 30px;
+        margin-bottom: 9px;
+      }
+      .question {
+        font: 700 24px/1.8 Changa;
+        margin: 20px 0;
+      }
+      .answers {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 10px;
+      }
+      .answer {
+        background: var(--card2);
+        border: 1px solid #ffffff20;
+        color: var(--text);
+        padding: 14px;
+        border-radius: 12px;
+        text-align: right;
+      }
+      .answer.correct {
+        background: #087b4c !important;
+        border: 2px solid #37f0a0;
+        color: white;
+      }
+      .answer.hidden-answer {
+        visibility: hidden;
+      }
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 9px;
+        margin: 20px 0;
+      }
+      .power {
+        border: 1px solid #ffffff25;
+        background: #ffffff0b;
+        color: var(--text);
+        border-radius: 13px;
+        padding: 12px 5px;
+        font-size: 12px;
+        font-weight: bold;
+      }
+      .power span {
+        display: block;
+        font-size: 25px;
+        margin-bottom: 5px;
+      }
+      .power:disabled {
+        opacity: 0.25;
+        filter: grayscale(1);
+      }
+      .timer {
+        font: 800 30px Changa;
+        color: var(--gold);
+      }
+      .bar {
+        height: 7px;
+        background: #ffffff20;
+        border-radius: 20px;
+        overflow: hidden;
+        margin: 10px 0;
+      }
+      .bar div {
+        height: 100%;
+        width: 100%;
+        background: var(--gold);
+      }
+      .notice {
+        color: var(--muted);
+        font-size: 13px;
+        line-height: 1.8;
+      }
+      .rules {
+        line-height: 2;
+        color: var(--muted);
+      }
+      .winner {
+        text-align: center;
+        padding: 30px 10px;
+      }
+      .winner h1 {
+        font-size: clamp(40px, 8vw, 70px);
+      }
+      .winner-name {
+        font: 800 45px Changa;
+        color: var(--gold);
+        margin: 25px 0;
+      }
+      .confetti {
+        position: fixed;
+        top: -30px;
+        width: 12px;
+        height: 19px;
+        animation: fall linear forwards;
+        z-index: 30;
+      }
+      @keyframes fall {
+        to {
+          transform: translateY(110vh) rotate(900deg);
+        }
+      }
+      .balloons {
+        font-size: 55px;
+        animation: float 2s ease-in-out infinite alternate;
+      }
+      @keyframes float {
+        to {
+          transform: translateY(-15px);
+        }
+      }
+      @media (max-width: 550px) {
+        main {
+          padding: 10px;
+        }
+        .team {
+          flex-basis: 260px;
+        }
+        .answers {
+          grid-template-columns: 1fr;
+        }
+        .categories {
+          gap: 6px;
+        }
+        .category {
+          font-size: 13px;
+          padding: 17px 3px;
+        }
+        .cards {
+          gap: 5px;
+        }
+        .power {
+          font-size: 10px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <header>
+      <button class="btn" id="theme">☾ الوضع الداكن</button>
+      <button class="btn" onclick="openModal('rules')">
+        📜 قوانين المسابقة
+      </button>
+    </header>
+
+    <section class="hero">
+      <h1>عقلك وبطاقتك</h1>
+      <p>التحدي يبدأ من هنا... فمن سيكون البطل؟</p>
+    </section>
+
+    <main>
+      <div class="toolbar">
+        <h2>🏆 الفرق المشاركة</h2>
+        <button class="primary" onclick="newTeam()">＋ إضافة فريق</button>
+      </div>
+
+      <div class="target">
+        <strong>🎯 نقاط الفوز:</strong>
+        <input type="number" id="target" min="1" value="100" />
+        <button class="gold" onclick="saveTarget()">اعتماد الهدف</button>
+      </div>
+
+      <div class="teams" id="teams"></div>
+      <p class="notice">
+        اسحب إلى اليمين أو اليسار لمشاهدة الفرق. النقاط لا تتغير إلا بتدخلك.
+      </p>
+    </main>
+
+    <!-- إضافة فريق -->
+    <div class="overlay" id="teamModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h2 id="teamTitle">إضافة فريق</h2>
+          <button class="close" onclick="closeModal('teamModal')">×</button>
+        </div>
+        <div class="field">
+          <label>اسم الفريق</label>
+          <input id="teamInput" maxlength="30" placeholder="اكتب اسم الفريق" />
+        </div>
+        <button class="primary" onclick="saveTeam()">حفظ</button>
+      </div>
+    </div>
+
+    <!-- اختيار الفئة -->
+    <div class="overlay" id="categoryModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h2>اختر فئة السؤال</h2>
+          <button class="close" onclick="closeModal('categoryModal')">×</button>
+        </div>
+        <div class="categories">
+          <button class="category" onclick="randomQuestion('دينية')">
+            <span>📖</span>دينية
+          </button>
+          <button class="category" onclick="randomQuestion('رياضية')">
+            <span>🏅</span>رياضية
+          </button>
+          <button class="category" onclick="randomQuestion('عامة')">
+            <span>🌍</span>عامة
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- نافذة السؤال -->
+    <div class="overlay" id="questionModal">
+      <div class="modal">
+        <div class="modal-head">
+          <h2>🧠 سؤال المسابقة</h2>
+          <button class="close" onclick="finishQuestion()">×</button>
+        </div>
+
+        <div id="playingTeam" class="notice"></div>
+        <div class="timer" id="timer">45 ثانية</div>
+        <div class="bar"><div id="timeBar"></div></div>
+
+        <div class="cards">
+          <button class="power" id="removeCard" onclick="useCard('remove')">
+            <span>✂️</span>حذف إجابتين<br /><small id="removeCount"
+              >متبقي 2</small
+            >
+          </button>
+          <button class="power" id="timeCard" onclick="useCard('time')">
+            <span>⏱️</span>مضاعفة الوقت<br /><small id="timeCount"
+              >متبقي 2</small
+            >
+          </button>
+          <button class="power" id="doubleCard" onclick="useCard('double')">
+            <span>⭐</span>مضاعفة النقاط<br /><small id="doubleCount"
+              >متبقي 2</small
+            >
+          </button>
+        </div>
+
+        <div class="notice" id="questionCategory"></div>
+        <div class="question" id="questionText"></div>
+        <div class="answers" id="answers"></div>
+        <p id="correctText" class="notice"></p>
+
+        <div
+          style="display: flex; gap: 10px; flex-wrap: wrap; margin-top: 20px"
+        >
+          <button class="gold" onclick="showAnswer()">
+            إظهار الإجابة الصحيحة
+          </button>
+          <button class="btn" onclick="finishQuestion()">إنهاء السؤال</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- القوانين -->
+    <div class="overlay" id="rules">
+      <div class="modal">
+        <div class="modal-head">
+          <h2>📜 قوانين المسابقة</h2>
+          <button class="close" onclick="closeModal('rules')">×</button>
+        </div>
+        <div class="rules">
+          <p>
+            1. في حال مغادرة أحد اللاعبين مكانه أثناء المسابقة، يُطرد من
+            المسابقة.
+          </p>
+          <p>2. لا يُسمح لأحد بالتحدث عن التحكيم إلا قائد المجموعة.</p>
+          <p>3. لكل فريق ثلاث بطاقات ولا يستخدمها الا مرتين</p>
+          <p>
+            في 4. بطاقه مضاعفه النقاط تكون قبل اختيار السؤال فيحاله اذا كانت
+            النقاط بالسالب فيتم مضاعفتها ايضا
+          </p>
+          <p>5. يجب تفعيل بطاقة مضاعفة النقاط أثناء السؤال وقبل تعديل نقاطه.</p>
+          <p>6. النقاط تُضاف وتُخصم بواسطة مدير المسابقة فقط.</p>
+          <p>7. عند بلوغ هدف النقاط المحدد يُعلن الفريق فائزاً.</p>
+        </div>
+        <button class="primary" onclick="closeModal('rules')">فهمت</button>
+      </div>
+    </div>
+
+    <!-- إعلان الفائز -->
+    <div class="overlay" id="winnerModal">
+      <div class="modal winner">
+        <div class="balloons">🎈 🎉 🎈</div>
+        <h1>🏆 الفائز هو</h1>
+        <div class="winner-name" id="winnerName"></div>
+        <h2 style="color: var(--green)">مبارك الفوز!</h2>
+        <div class="balloons">🎊 🎈 🥳 🎊</div>
+        <button class="gold" onclick="closeModal('winnerModal')">متابعة</button>
+      </div>
+    </div>
+
+    <script>
+      const Q = {
+        دينية: [
+          [
+            "كم عدد السور التي تبدأ بالحروف المقطعة؟",
+            ["29", "25", "30", "27"],
+            0,
+          ],
+          [
+            "ما السورة التي وردت فيها البسملة مرتين؟",
+            ["التوبة", "النمل", "يس", "الرحمن"],
+            1,
+          ],
+          [
+            "من النبي الذي أُرسل إلى قوم مدين؟",
+            ["هود", "صالح", "شعيب", "إبراهيم"],
+            2,
+          ],
+          [
+            "كم عدد مواضع السجود في القرآن على المشهور؟",
+            ["14", "15", "16", "17"],
+            1,
+          ],
+          [
+            "ما أطول آية في القرآن الكريم؟",
+            ["آية الدين", "آية الكرسي", "آية النور", "آية الصيام"],
+            0,
+          ],
+          [
+            "ما اسم الغار الذي نزل فيه الوحي أول مرة؟",
+            ["ثور", "حراء", "أحد", "النور"],
+            1,
+          ],
+          [
+            "من الصحابي الملقب بذي النورين؟",
+            [
+              "علي بن أبي طالب",
+              "عمر بن الخطاب",
+              "عثمان بن عفان",
+              "طلحة بن عبيد الله",
+            ],
+            2,
+          ],
+          [
+            "ما السورة التي لا تبدأ بالبسملة؟",
+            ["الأنفال", "التوبة", "يونس", "هود"],
+            1,
+          ],
+          [
+            "كم سنة مكث أهل الكهف في كهفهم كما ورد في القرآن؟",
+            ["300 سنة", "309 سنوات", "310 سنوات", "250 سنة"],
+            1,
+          ],
+          [
+            "من النبي الذي ابتلعه الحوت؟",
+            ["أيوب", "يونس", "إدريس", "زكريا"],
+            1,
+          ],
+          [
+            "ما أول مسجد بُني في الإسلام؟",
+            ["المسجد النبوي", "المسجد الحرام", "مسجد قباء", "المسجد الأقصى"],
+            2,
+          ],
+          [
+            "ما اسم أم النبي عيسى عليه السلام؟",
+            ["آسية", "مريم", "هاجر", "سارة"],
+            1,
+          ],
+          ["في أي شهر فُرض صيام رمضان؟", ["شعبان", "رمضان", "محرم", "رجب"], 0],
+          [
+            "من الصحابي الذي جمع القرآن في مصحف واحد بأمر أبي بكر؟",
+            ["زيد بن ثابت", "أبي بن كعب", "عبدالله بن مسعود", "معاذ بن جبل"],
+            0,
+          ],
+          [
+            "ما السورة التي تُسمى سورة بني إسرائيل؟",
+            ["الكهف", "الإسراء", "مريم", "طه"],
+            1,
+          ],
+          [
+            "من النبي الذي كلمه الله تكليماً؟",
+            ["إبراهيم", "موسى", "عيسى", "نوح"],
+            1,
+          ],
+          ["كم عدد أجزاء القرآن الكريم؟", ["20", "25", "30", "40"], 2],
+          [
+            "ما اسم الملك الموكل بالنفخ في الصور؟",
+            ["جبريل", "ميكائيل", "إسرافيل", "ملك الموت"],
+            2,
+          ],
+          [
+            "ما القبلة الأولى للمسلمين؟",
+            ["الكعبة", "المسجد الأقصى", "مسجد قباء", "المسجد النبوي"],
+            1,
+          ],
+          [
+            "من أول مؤذن في الإسلام؟",
+            ["بلال بن رباح", "أبو هريرة", "سلمان الفارسي", "عمار بن ياسر"],
+            0,
+          ],
+        ],
+        رياضية: [
+          [
+            "من فاز بكأس العالم لكرة القدم عام 2018؟",
+            ["ألمانيا", "فرنسا", "الأرجنتين", "كرواتيا"],
+            1,
+          ],
+          [
+            "كم يبلغ طول سباق الماراثون الرسمي؟",
+            ["40 كم", "42.195 كم", "45 كم", "41 كم"],
+            1,
+          ],
+          [
+            "في أي رياضة تُستخدم الكرة الصفراء الصغيرة والمضرب؟",
+            ["الاسكواش", "التنس", "البيسبول", "الهوكي"],
+            1,
+          ],
+          ["كم لاعباً في فريق كرة السلة داخل الملعب؟", ["5", "6", "7", "8"], 0],
+          [
+            "ما الدولة التي استضافت أول كأس عالم لكرة القدم؟",
+            ["البرازيل", "إيطاليا", "الأوروغواي", "فرنسا"],
+            2,
+          ],
+          [
+            "كم عدد الحلقات في شعار الألعاب الأولمبية؟",
+            ["4", "5", "6", "7"],
+            1,
+          ],
+          [
+            "ما المسافة الرسمية لسباق 100 متر؟",
+            ["100 متر", "110 أمتار", "90 متراً", "120 متراً"],
+            0,
+          ],
+          [
+            "في أي رياضة تُمنح جائزة الكرة الذهبية؟",
+            ["التنس", "كرة القدم", "السلة", "السباحة"],
+            1,
+          ],
+          [
+            "كم شوطاً في مباراة كرة اليد؟",
+            ["شوط واحد", "شوطان", "ثلاثة أشواط", "أربعة أشواط"],
+            1,
+          ],
+          [
+            "ما الدولة صاحبة أكبر عدد من ألقاب كأس العالم للرجال حتى 2022؟",
+            ["ألمانيا", "إيطاليا", "البرازيل", "الأرجنتين"],
+            2,
+          ],
+          [
+            "كم نقطة تُحتسب للتصويب الناجح من خارج قوس الثلاثيات في كرة السلة؟",
+            ["نقطة", "نقطتان", "ثلاث نقاط", "أربع نقاط"],
+            2,
+          ],
+          [
+            "في أي رياضة تُستخدم حركة الإرسال الساحق؟",
+            ["الكرة الطائرة", "السباحة", "الملاكمة", "الجودو"],
+            0,
+          ],
+          [
+            "ما اسم البطولة الأوروبية الأهم للأندية في كرة القدم؟",
+            [
+              "الدوري الأوروبي",
+              "دوري أبطال أوروبا",
+              "كأس العالم للأندية",
+              "كأس السوبر",
+            ],
+            1,
+          ],
+          [
+            "كم لاعباً في فريق الكرة الطائرة داخل الملعب؟",
+            ["5", "6", "7", "8"],
+            1,
+          ],
+          [
+            "ما الرياضة التي اشتهر فيها مايكل فيلبس؟",
+            ["الجري", "السباحة", "التنس", "الدراجات"],
+            1,
+          ],
+          [
+            "كم دقيقة مدة مباراة كرة القدم الأصلية دون الوقت بدل الضائع؟",
+            ["80", "90", "100", "120"],
+            1,
+          ],
+          [
+            "ما الدولة التي ابتكرت رياضة الجودو؟",
+            ["الصين", "اليابان", "كوريا", "تايلاند"],
+            1,
+          ],
+          [
+            "في أي رياضة يُستخدم مصطلح ضربة تحت المعدل؟",
+            ["الغولف", "التنس", "كرة القدم", "السباحة"],
+            0,
+          ],
+          [
+            "ما لون البطاقة التي تعني الطرد في كرة القدم؟",
+            ["الأصفر", "الأزرق", "الأحمر", "الأخضر"],
+            2,
+          ],
+          [
+            "كم عدد لاعبي فريق الرجبي التقليدي (اتحاد الرجبي)؟",
+            ["11", "13", "15", "17"],
+            2,
+          ],
+        ],
+        عامة: [
+          [
+            "ما العنصر الكيميائي الذي رمزه W؟",
+            ["الفضة", "التنغستن", "القصدير", "الزنك"],
+            1,
+          ],
+          [
+            "ما أعمق نقطة معروفة في المحيطات؟",
+            ["خندق بورتوريكو", "تشالنجر ديب", "خندق جاوة", "بحر سارجاسو"],
+            1,
+          ],
+          [
+            "ما الدولة التي تضم مدينة ماتشو بيتشو الأثرية؟",
+            ["المكسيك", "بيرو", "تشيلي", "بوليفيا"],
+            1,
+          ],
+          [
+            "ما وحدة قياس المقاومة الكهربائية؟",
+            ["الفولت", "الأمبير", "الأوم", "الواط"],
+            2,
+          ],
+          [
+            "من مؤلف رواية البؤساء؟",
+            ["تولستوي", "فيكتور هوغو", "دوستويفسكي", "تشارلز ديكنز"],
+            1,
+          ],
+          ["ما أكبر قمر لكوكب زحل؟", ["أوروبا", "تيتان", "غانيميد", "آيو"], 1],
+          [
+            "ما اللغة الرسمية في البرازيل؟",
+            ["الإسبانية", "البرتغالية", "الفرنسية", "الإنجليزية"],
+            1,
+          ],
+          [
+            "كم عدد عظام جسم الإنسان البالغ تقريباً؟",
+            ["186", "206", "226", "246"],
+            1,
+          ],
+          [
+            "ما اسم العملية التي تتحول فيها المادة من صلب إلى غاز مباشرة؟",
+            ["التكاثف", "التسامي", "التبخر", "التجمد"],
+            1,
+          ],
+          ["في أي عام سقط جدار برلين؟", ["1987", "1988", "1989", "1991"], 2],
+          [
+            "ما أكبر صحراء حارة في العالم؟",
+            ["غوبي", "الصحراء الكبرى", "كالاهاري", "الربع الخالي"],
+            1,
+          ],
+          [
+            "من رسم لوحة الموناليزا؟",
+            ["رافائيل", "مايكل أنجلو", "ليوناردو دا فينشي", "فان غوخ"],
+            2,
+          ],
+          [
+            "ما الكوكب الذي يمتلك أكبر عدد من الحلقات البارزة؟",
+            ["المشتري", "زحل", "أورانوس", "نبتون"],
+            1,
+          ],
+          ["ما عاصمة كندا؟", ["تورونتو", "فانكوفر", "أوتاوا", "مونتريال"], 2],
+          [
+            "ما اسم أصغر عظمة في جسم الإنسان؟",
+            ["الركاب", "المطرقة", "السندان", "الشظية"],
+            0,
+          ],
+          [
+            "ما العلم الذي يدرس الزلازل؟",
+            ["الأرصاد", "علم الزلازل", "الجيولوجيا البحرية", "علم المناخ"],
+            1,
+          ],
+          [
+            "من وضع نظرية النسبية؟",
+            ["نيوتن", "ألبرت أينشتاين", "غاليلو", "ماكس بلانك"],
+            1,
+          ],
+          [
+            "ما المضيق الذي يفصل آسيا عن أمريكا الشمالية؟",
+            ["جبل طارق", "بيرينغ", "ملقا", "هرمز"],
+            1,
+          ],
+          [
+            "ما الحيوان الثديي الوحيد القادر على الطيران الحقيقي؟",
+            ["السنجاب الطائر", "الخفاش", "البومة", "الليمور"],
+            1,
+          ],
+          [
+            "كم عدد الكروموسومات في الخلية البشرية الطبيعية؟",
+            ["23", "44", "46", "48"],
+            2,
+          ],
+        ],
+      };
+
+      const KEY = "aqb_final_v3";
+      let data = JSON.parse(
+        localStorage.getItem(KEY) ||
+          '{"teams":[],"target":100,"light":false,"used":{}}',
+      );
+      let editing = null,
+        active = null,
+        current = null,
+        seconds = 45,
+        total = 45,
+        clock = null,
+        double = false;
+
+      function save() {
+        localStorage.setItem(KEY, JSON.stringify(data));
+      }
+      function team(id) {
+        return data.teams.find((t) => t.id === id);
+      }
+      function render() {
+        document.body.classList.toggle("light", data.light);
+        document.getElementById("theme").textContent = data.light
+          ? "☀ الوضع الفاتح"
+          : "☾ الوضع الداكن";
+        document.getElementById("target").value = data.target;
+        document.getElementById("teams").innerHTML = data.teams.length
+          ? data.teams
+              .map(
+                (t, i) => `
+ <div class="team">
+ <div class="team-name">${esc(t.name)}</div>
+ <div class="score">${t.points}</div>
+ <div class="score-label">إجمالي النقاط</div>
+ <div class="score-editor">
+ <input type="number" min="0" id="amount-${t.id}" placeholder="عدد النقاط">
+ <button class="plus" onclick="adjust('${t.id}',1)">+</button>
+ <button class="minus" onclick="adjust('${t.id}',-1)">−</button>
+ </div>
+ <div class="small">اضغط Enter للإضافة و Shift + Enter للخصم</div>
+ <div class="team-actions">
+ <button class="ask" onclick="choose('${t.id}')">سؤال ✦</button>
+ <button class="edit" onclick="editTeam('${t.id}')">✎</button>
+ <button class="delete" onclick="deleteTeam('${t.id}')">×</button>
+ </div>
+ <div class="small">البطاقات المتبقية: حذف ${2 - t.cards.remove} | وقت ${2 - t.cards.time} | نقاط ${2 - t.cards.double}</div>
+ </div>`,
+              )
+              .join("")
+          : '<p class="notice">أضف أول فريق لبدء المسابقة.</p>';
+        data.teams.forEach((t) => {
+          let input = document.getElementById("amount-" + t.id);
+          input.onkeydown = (e) => {
+            if (e.key === "Enter") {
+              e.preventDefault();
+              adjust(t.id, e.shiftKey ? -1 : 1);
+            }
+          };
+        });
+      }
+      function esc(s) {
+        return String(s).replace(
+          /[&<>"']/g,
+          (c) =>
+            ({
+              "&": "&amp;",
+              "<": "&lt;",
+              ">": "&gt;",
+              '"': "&quot;",
+              "'": "&#39;",
+            })[c],
+        );
+      }
+      function openModal(id) {
+        document.getElementById(id).classList.add("show");
+      }
+      function closeModal(id) {
+        document.getElementById(id).classList.remove("show");
+      }
+      document.querySelectorAll(".overlay").forEach((o) =>
+        o.addEventListener("click", (e) => {
+          if (e.target === o) {
+            if (o.id === "questionModal") finishQuestion();
+            else closeModal(o.id);
+          }
+        }),
+      );
+      document.getElementById("theme").onclick = () => {
+        data.light = !data.light;
+        save();
+        render();
+      };
+      function newTeam() {
+        editing = null;
+        document.getElementById("teamTitle").textContent = "إضافة فريق";
+        document.getElementById("teamInput").value = "";
+        openModal("teamModal");
+      }
+      function editTeam(id) {
+        editing = id;
+        document.getElementById("teamTitle").textContent = "تعديل الفريق";
+        document.getElementById("teamInput").value = team(id).name;
+        openModal("teamModal");
+      }
+      function saveTeam() {
+        let n = document.getElementById("teamInput").value.trim();
+        if (!n) return alert("اكتب اسم الفريق");
+        if (editing) team(editing).name = n;
+        else
+          data.teams.push({
+            id: Date.now().toString(),
+            name: n,
+            points: 0,
+            cards: { remove: 0, time: 0, double: 0 },
+          });
+        save();
+        render();
+        closeModal("teamModal");
+      }
+      function deleteTeam(id) {
+        if (confirm("هل تريد حذف الفريق؟")) {
+          data.teams = data.teams.filter((t) => t.id !== id);
+          save();
+          render();
+        }
+      }
+      function adjust(id, dir) {
+        let el = document.getElementById("amount-" + id),
+          n = Math.max(0, Number(el.value) || 0);
+        if (!n) return alert("أدخل عدد النقاط أولاً");
+        let t = team(id),
+          value = n;
+        if (dir > 0 && active === id && double) {
+          value *= 2;
+          double = false;
+        }
+        t.points = Math.max(0, t.points + dir * value);
+        save();
+        render();
+        if (t.points >= data.target) declareWinner(t);
+      }
+      function saveTarget() {
+        let n = Number(document.getElementById("target").value);
+        if (!n || n < 1) return alert("أدخل هدفاً صحيحاً");
+        data.target = n;
+        save();
+        alert("تم اعتماد نقاط الفوز: " + n);
+        data.teams.forEach((t) => {
+          if (t.points >= n) declareWinner(t);
+        });
+      }
+      function choose(id) {
+        active = id;
+        openModal("categoryModal");
+      }
+      function randomQuestion(cat) {
+        let used = data.used[cat] || [];
+        let available = Q[cat]
+          .map((q, i) => i)
+          .filter((i) => !used.includes(i));
+        if (!available.length) {
+          data.used[cat] = [];
+          available = Q[cat].map((q, i) => i);
+        }
+        let index = available[Math.floor(Math.random() * available.length)];
+        data.used[cat] = [...(data.used[cat] || []), index];
+        save();
+        current = { cat, index, q: Q[cat][index] };
+        closeModal("categoryModal");
+        startQuestion();
+      }
+      function startQuestion() {
+        let t = team(active);
+        if (!t) return;
+        seconds = 45;
+        total = 45;
+        double = false;
+        document.getElementById("playingTeam").textContent =
+          "الفريق: " + t.name;
+        document.getElementById("questionCategory").textContent =
+          "الفئة: " + current.cat;
+        document.getElementById("questionText").textContent = current.q[0];
+        document.getElementById("answers").innerHTML = current.q[1]
+          .map(
+            (a, i) =>
+              `<button class="answer" id="ans-${i}">${["أ", "ب", "ج", "د"][i]}. ${esc(a)}</button>`,
+          )
+          .join("");
+        document.getElementById("correctText").textContent = "";
+        updateCards();
+        updateTimer();
+        openModal("questionModal");
+        clearInterval(clock);
+        clock = setInterval(() => {
+          seconds--;
+          updateTimer();
+          if (seconds <= 0) {
+            clearInterval(clock);
+            document.getElementById("correctText").textContent =
+              "انتهى الوقت! يمكنك إظهار الإجابة.";
+          }
+        }, 1000);
+      }
+      function updateCards() {
+        let t = team(active);
+        ["remove", "time", "double"].forEach((k) => {
+          let b = document.getElementById(k + "Card");
+          b.disabled = t.cards[k] >= 2;
+          document.getElementById(k + "Count").textContent =
+            "متبقي " + (2 - t.cards[k]);
+        });
+      }
+      function useCard(k) {
+        let t = team(active);
+        if (t.cards[k] >= 2) return;
+        if (k === "remove") {
+          let wrong = [0, 1, 2, 3]
+            .filter((i) => i !== current.q[2])
+            .sort(() => Math.random() - 0.5)
+            .slice(0, 2);
+          wrong.forEach((i) =>
+            document.getElementById("ans-" + i).classList.add("hidden-answer"),
+          );
+        } else if (k === "time") {
+          seconds *= 2;
+          total = seconds;
+          updateTimer();
+        } else {
+          double = true;
+          document.getElementById("correctText").textContent =
+            "⭐ تم تفعيل مضاعفة نقاط هذا السؤال. عند إضافة نقاطه ستُضاعف.";
+        }
+        t.cards[k]++;
+        save();
+        updateCards();
+      }
+      function showAnswer() {
+        if (!current) return;
+        document.querySelectorAll(".answer").forEach((el, i) => {
+          el.classList.toggle("correct", i === current.q[2]);
+        });
+        document.getElementById("correctText").textContent =
+          "الإجابة الصحيحة: " + current.q[1][current.q[2]];
+      }
+      function finishQuestion() {
+        clearInterval(clock);
+        clock = null;
+        closeModal("questionModal");
+        current = null;
+        // إذا لم تُستخدم مضاعفة النقاط، لا تبقى للسؤال التالي
+        double = false;
+        active = null;
+      }
+      function updateTimer() {
+        document.getElementById("timer").textContent = seconds + " ثانية";
+        document.getElementById("timeBar").style.width =
+          Math.max(0, (seconds / total) * 100) + "%";
+      }
+      function declareWinner(t) {
+        clearInterval(clock);
+        document.getElementById("winnerName").textContent = t.name;
+        closeModal("questionModal");
+        closeModal("categoryModal");
+        openModal("winnerModal");
+        celebrate();
+      }
+      function celebrate() {
+        const colors = ["#ffcf5c", "#a78bfa", "#5ee0ad", "#ff7192", "#60c7ff"];
+        for (let i = 0; i < 110; i++) {
+          let p = document.createElement("i");
+          p.className = "confetti";
+          p.style.left = Math.random() * 100 + "%";
+          p.style.background =
+            colors[Math.floor(Math.random() * colors.length)];
+          p.style.animationDuration = 2 + Math.random() * 4 + "s";
+          p.style.animationDelay = Math.random() * 1.5 + "s";
+          document.body.appendChild(p);
+          setTimeout(() => p.remove(), 7000);
+        }
+      }
+      render();
+    </script>
+  </body>
+</html>
